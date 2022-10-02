@@ -76,7 +76,7 @@ const getDocNameList = ()=>{
   req.onload = function(){
     text = this.responseText;
   }
-  req.open("GET","/documents/sample.md",true);
+  req.open("GET","documents/sample.md",true);
   req.send();
   return text;
 }
