@@ -1,38 +1,41 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import { ElContainer, ElMain, ElAside, ElMenu, ElMenuItem, ElSubMenu, ElMenuItemGroup } from 'element-plus';
+import NavView from './views/NavView.vue';
+import { RouterView } from 'vue-router'
+import { ElContainer, ElMain, ElHeader, ElAside, ElMenu } from 'element-plus';
 </script>
 
 <template>
   <ElContainer>
-    <ElAside width="200px" style="background-color: antiquewhite;">
-      <ElMenu>
-        <ElMenuItem>
-          <RouterLink to="/home">
-            欢迎ヾ(•ω•`)o
-          </RouterLink>
-        </ElMenuItem>
-        <ElSubMenu index="1">
-          <template #title>
-            <span>笔记</span>
-          </template>
-          <ElMenuItemGroup title="数学">
-            <ElMenuItem>
-              离散数学
-            </ElMenuItem>
-          </ElMenuItemGroup>
-        </ElSubMenu>
+    <ElHeader id="header-nav">
+      <ElMenu mode="horizontal">
+        <NavView></NavView>
       </ElMenu>
-    </ElAside>
-    <ElMain style="background-color: aliceblue;">
-      <RouterView />
-    </ElMain>
+    </ElHeader>
+    <ElContainer>
+      <ElAside id="aside-nav" width="200px" style="background-color: white;">
+        <ElMenu><NavView></NavView></ElMenu>
+      </ElAside>
+      <ElMain style="background-color: aliceblue;">
+        <RouterView />
+      </ElMain>
+    </ElContainer>
   </ElContainer>
 </template>
 
 <style scoped>
 .el-container {
   height: 100%;
+}
+
+@media screen and (max-width: 750px) {
+  #aside-nav {
+    display: none;
+  }
+}
+@media screen and (min-width: 750px) {
+  #header-nav {
+    display: none;
+  }
 }
 </style>
 
