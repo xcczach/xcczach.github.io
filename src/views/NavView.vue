@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import { ElMenuItem, ElSubMenu, ElMenuItemGroup } from 'element-plus';
 </script>
 
@@ -15,16 +14,12 @@ import { ElMenuItem, ElSubMenu, ElMenuItemGroup } from 'element-plus';
             <ElMenuItem index="/discrete-maths">
                 离散数学
             </ElMenuItem>
+            <ElMenuItem index="/probability-and-statistics">
+                概率统计
+            </ElMenuItem>
         </ElMenuItemGroup>
     </ElSubMenu>
 </template>
 
 <style scoped>
-/* a {
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-    color: black;
-    text-decoration: none;
-} */
 </style>
