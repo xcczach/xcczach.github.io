@@ -7,13 +7,13 @@ import { ElContainer, ElMain, ElHeader, ElAside, ElMenu } from 'element-plus';
 <template>
   <ElContainer>
     <ElHeader id="header-nav">
-      <ElMenu mode="horizontal">
+      <ElMenu router mode="horizontal" defaultActive="/">
         <NavView></NavView>
       </ElMenu>
     </ElHeader>
     <ElContainer>
-      <ElAside id="aside-nav" width="200px" style="background-color: white;">
-        <ElMenu><NavView></NavView></ElMenu>
+      <ElAside id="aside-nav" width="150px" style="background-color: white;">
+        <ElMenu router defaultActive="/"><NavView></NavView></ElMenu>
       </ElAside>
       <ElMain style="background-color: aliceblue;">
         <RouterView />
