@@ -10,6 +10,9 @@ import { ElMenuItem, ElSubMenu, ElMenuItemGroup } from 'element-plus';
         <template #title>
             <span>笔记</span>
         </template>
+        <ElMenuItem index="/volumetric-video">
+            体积视频
+        </ElMenuItem>
         <ElMenuItemGroup title="数学">
             <ElMenuItem index="/discrete-maths">
                 离散数学

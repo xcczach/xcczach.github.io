@@ -4,5 +4,8 @@
     ],
     "probability-and-statistics": [
         
+    ],
+    "volumetric-video": [
+        {"fileName": "volume1", "date": [2023,4,7], "tags": ["基本概念","点云"]}
     ]
 }
