@@ -1,8 +1,8 @@
 <template>
     <div>
-        概率统计
+        前端
     </div>
-    <PassageList route-name="probability-and-statistics"></PassageList>
+    <PassageList route-name="front-end-dev"></PassageList>
 </template>
 
 <script lang="ts">

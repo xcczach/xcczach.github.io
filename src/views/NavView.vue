@@ -10,9 +10,11 @@ import { ElMenuItem, ElSubMenu, ElMenuItemGroup } from 'element-plus';
         <template #title>
             <span>笔记</span>
         </template>
-        <ElMenuItem index="/volumetric-video">
-            体积视频
-        </ElMenuItem>
+        <ElMenuItemGroup title="程序设计">
+            <ElMenuItem index="/front-end-dev">
+                前端开发
+            </ElMenuItem>
+        </ElMenuItemGroup>
         <ElMenuItemGroup title="数学">
             <ElMenuItem index="/discrete-maths">
                 离散数学
@@ -21,8 +23,12 @@ import { ElMenuItem, ElSubMenu, ElMenuItemGroup } from 'element-plus';
                 概率统计
             </ElMenuItem>
         </ElMenuItemGroup>
+        <ElMenuItemGroup title="其他">
+            <ElMenuItem index="/volumetric-video">
+                体积视频
+            </ElMenuItem>
+        </ElMenuItemGroup>
     </ElSubMenu>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

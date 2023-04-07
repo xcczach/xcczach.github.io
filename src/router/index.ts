@@ -4,6 +4,7 @@ import NotFoundView from "@/views/NotFoundView.vue"
 import PassageView from "@/views/PassageView.vue"
 import DiscreteMathsView from "@/views/maths/DiscreteMathsView.vue"
 import ProbAndStatView from "@/views/maths/ProbAndStatView.vue"
+import FrontEndDevView from "@/views/programming/FrontEndDevView.vue"
 import VolumetricVideoView from "@/views/VolumetricVideoView.vue"
 
 
@@ -15,7 +16,9 @@ const router = createRouter({
     {path: "/:categoryName/:passageName", component: PassageView},
     {path: "/discrete-maths", component: DiscreteMathsView},
     {path: "/probability-and-statistics", component: ProbAndStatView},
+    {path: "/front-end-dev", component: FrontEndDevView},
     {path: "/volumetric-video", component: VolumetricVideoView},
+
   ]
 })
 

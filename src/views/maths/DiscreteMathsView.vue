@@ -1,6 +1,6 @@
 <template>
     <div>
-        Discrete Maths
+        离散数学
     </div>
     <PassageList route-name="discrete-maths"></PassageList>
 </template>
