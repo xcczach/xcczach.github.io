@@ -11,6 +11,7 @@ const router = createRouter({
     {path: "/:pathMatch(.*)*", component: NotFoundView},
     {path: "/", component: HomeView},
     {path: "/discrete-maths", component: DiscreteMathsView},
+    {path: "/discrete-maths/:passageName", component: DiscreteMathsView},
     {path: "/probability-and-statistics", component: ProbAndStatView},
   ]
 })
