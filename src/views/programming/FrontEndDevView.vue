@@ -1,6 +1,6 @@
 <template>
     <div>
-        前端
+        前端开发
     </div>
     <PassageList route-name="front-end-dev"></PassageList>
 </template>

@@ -1,11 +1,14 @@
 {
     "discrete-maths": [
-        {"fileName": "graph1", "date": [2023,4,7], "tags": ["图论"]}
+
     ],
     "probability-and-statistics": [
         
     ],
     "volumetric-video": [
-        {"fileName": "volume1", "date": [2023,4,7], "tags": ["基本概念","点云"]}
+        {"fileName": "volume1", "date": [2023,4,7], "tags": []}
+    ],
+    "front-end-dev": [
+        {"fileName": "export和import", "date": [2023,4,7], "tags": ["Javascript","ES6"]}
     ]
 }
