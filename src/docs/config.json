@@ -10,5 +10,8 @@
     ],
     "front-end-dev": [
         {"fileName": "export和import", "date": [2023,4,7], "tags": ["Javascript","ES6"]}
+    ],
+    "diaries": [
+        {"fileName": "2023-4-8", "date": [2023,4,8], "tags": ["学习"]}
     ]
 }

@@ -29,6 +29,9 @@ import { ElMenuItem, ElSubMenu, ElMenuItemGroup } from 'element-plus';
             </ElMenuItem>
         </ElMenuItemGroup>
     </ElSubMenu>
+    <ElMenuItem index="/diaries">
+        随笔
+    </ElMenuItem>
 </template>
 
 <style scoped></style>
