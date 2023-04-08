@@ -3,7 +3,7 @@
 
     ],
     "probability-and-statistics": [
-        
+        {"fileName": "学生T分布", "date": [2023,4,8], "tags": ["置信区间","假设检验"]}
     ],
     "volumetric-video": [
         {"fileName": "体积视频基本概念", "date": [2023,4,7], "tags": []}
@@ -12,6 +12,6 @@
         {"fileName": "export和import", "date": [2023,4,7], "tags": ["Javascript","ES6"]}
     ],
     "diaries": [
-        {"fileName": "2023-4-8", "date": [2023,4,8], "tags": ["学习"]}
+        {"fileName": "2023-4-8", "date": [2023,4,8], "tags": ["学习","计划"]}
     ]
 }
