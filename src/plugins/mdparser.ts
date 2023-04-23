@@ -206,18 +206,15 @@ function loadMathJax() {
         tex: {
             inlineMath: [['$', '$'], ['\\(', '\\)']]
         },
-        svg: {
-            fontCache: 'global'
-        }
+        loader: {load: ["input/tex", "output/chtml"]}
     };
 
-    const originalScript = document.querySelector("script[src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js']");
-    if(originalScript !== null)
-        document.head.removeChild(originalScript);
-        
     let script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
     script.async = true;
+    script.addEventListener("load",() => {
+        console.log("math ready");
+    })
     document.head.appendChild(script);
 }
 

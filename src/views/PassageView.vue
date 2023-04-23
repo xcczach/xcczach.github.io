@@ -12,10 +12,9 @@ export default {
             this.mdParsed = new MdParser(this.mdContent).getHtml();
         });
     },
-    updated() {
+    mounted() {
         MdParser.initMaths();
-    }
-    ,
+    },
     data() {
         return {
             mdContent: "",
