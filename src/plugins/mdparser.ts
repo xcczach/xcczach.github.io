@@ -28,70 +28,44 @@ const contentModifierMap: Map<RegExpType, [string, string]> = new Map([
 ]);
 
 const blockMap: Map<RegExpType, [string, string]> = new Map([
-    ["code", ["<div style='background-color: black; color: white; margin-top: 0.2rem; margin-bottom: 0.5rem;'>", "</div>"]]
+    ["code", ["<pre><code class='javascript'>", "</code></pre>"]]
 ]);
 
 const blockParseFuncMap: Map<RegExpType, (lineContent: string, blockPara: string | null) => string> = new Map([
-    ["code", (lineContent, blockPara) => {
-        lineContent = replaceSpace(lineContent);
-        if (blockPara !== null) {
-            blockPara = blockPara.toLowerCase();
-            const transFunc = codeTransMap.get(blockPara);
-
-            lineContent = transFunc !== undefined ? transFunc(lineContent) : lineContent;
-        }
-        lineContent += "<br/>";
+    ["code", (lineContent, _) => {
         return lineContent;
     }]
 ]);
 
-const codeTransMap: Map<string, (lineContent: string) => string> = new Map([
-    ["javascript", lineContent => {
-        lineContent = wrapKeyword(lineContent, new Map([
-            ["const", wrapInDarkBlue],
-            ["function", wrapInDarkBlue],
-            ["export", wrapInPurple],
-            ["import", wrapInPurple],
-            ["return", wrapInPurple],
-            ["for", wrapInPurple],
-            ["if", wrapInPurple],
-            ["default", wrapInPurple],
-            ["continue", wrapInPurple],
-            ["finally", wrapInPurple],
-            ["try", wrapInPurple],
-            ["catch", wrapInPurple],
-            ["as", wrapInPurple],
-            ["from", wrapInPurple],
-            ["throw", wrapInPurple],
-            ["case", wrapInPurple],
-            ["true", wrapInDarkBlue],
-            ["false", wrapInDarkBlue],
-            ["class", wrapInDarkBlue],
-            ["this", wrapInDarkBlue],
-            ["final", wrapInDarkBlue],
-            ["while", wrapInDarkBlue],
-            ["in", wrapInDarkBlue],
-            ["of", wrapInDarkBlue],
-            ["null", wrapInDarkBlue],
-            ["undefined", wrapInDarkBlue],
-            ["typeof", wrapInDarkBlue],
-            ["let", wrapInDarkBlue],
-            ["var", wrapInDarkBlue],
-            [KEYWORD_VARIABLE, wrapInLightBlue],
-            [KEYWORD_FUNCTION, wrapInLightYellow],
-            [KEYWORD_NUMBER, wrapInLightGreen],
-            [KEYWORD_BRACKET, wrapInYellow],
-            [KEYWORD_BRACE, wrapInYellow],
-        ]));
-        return lineContent;
-    }]
-])
+function hasScript(src: string) {
+    return document.querySelector(`script[src='${src}']`) !== null;
+}
 
-const KEYWORD_VARIABLE = "===variable===";
-const KEYWORD_FUNCTION = "===function===";
-const KEYWORD_NUMBER = "===number===";
-const KEYWORD_BRACKET = "===bracket===";
-const KEYWORD_BRACE = "===brace===";
+function hasCSS(href: string) {
+    return document.querySelector(`link[href='${href}']`) !== null;
+}
+
+function loadScript(src: string, reloadEveryTime: boolean = true, async: boolean = false, callback: () => void = () => {}) {
+    if(!reloadEveryTime && hasScript(src))
+        return;
+    console.log(`script loaded: ${src}`);
+    let script = document.createElement('script');
+    script.src = src;
+    script.async = async;
+    script.addEventListener("load", callback);
+    document.head.appendChild(script);
+}
+
+function loadCSS(href: string) {
+    if(hasCSS(href))
+        return;
+    console.log(`css loaded: ${href}`);
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+}
+
 
 function wrapSubLi(lineContent: string) {
     return `<li style='margin-left: 1.5rem' type='circle'>${lineContent}</li>`;
@@ -101,94 +75,6 @@ function wrapSubSubLi(lineContent: string) {
     return `<li style='margin-left: 3rem' type='square'>${lineContent}</li>`;
 }
 
-function wrapKeyword(lineContent: string, keywordMap: Map<string, (word: string) => string>) {
-    const words = lineContent.split("&nbsp");
-    for (let i = 0; i < words.length; i++) {
-
-        words[i] = words[i].replace(";", wrapInWhite(";"));
-
-        const word = words[i];
-        const keyWordWrap = keywordMap.get(word);
-        if (keyWordWrap !== undefined) {
-            words[i] = keyWordWrap(word);
-            continue;
-        }
-        const functionWrap = keywordMap.get(KEYWORD_FUNCTION);
-        const variableWrap = keywordMap.get(KEYWORD_VARIABLE);
-        const numberWrap = keywordMap.get(KEYWORD_NUMBER);
-
-        if (functionWrap !== undefined && /^([a-zA-Z]+)\(/.test(word)) {
-            const funcName = (/^([a-zA-Z]+)\(/.exec(word) as string[])[1] as string;
-            words[i] = words[i].replace(funcName, functionWrap(funcName));
-            continue;
-        }
-        if (numberWrap !== undefined && /^([0-9]+)/.test(word)) {
-            const num = (/^([0-9]+)/.exec(word) as string[])[1] as string;
-            words[i] = words[i].replace(num, numberWrap(num));
-            words[i] = numberWrap(word);
-            continue
-        }
-        if (variableWrap !== undefined && /^[a-zA-Z]+[0-9]*$/.test(word)) {
-            words[i] = variableWrap(word);
-            continue;
-        }
-    }
-    lineContent = words.join("&nbsp");
-
-    const bracketWrap = keywordMap.get(KEYWORD_BRACKET);
-    if (bracketWrap !== undefined) {
-        lineContent = lineContent.replace(/(\W)(\()/g, "$1" + bracketWrap("("));
-        lineContent = lineContent.replace(/(\))([^;"])/g, bracketWrap(")") + "$2");
-    }
-
-    const braceWrap = keywordMap.get(KEYWORD_BRACE);
-    if (braceWrap !== undefined) {
-        lineContent = lineContent.replace(/\{/g, braceWrap("{"));
-        lineContent = lineContent.replace(/\}/g, braceWrap("}"));
-    }
-
-    return lineContent;
-}
-
-function wrapInSpan(word: string, color: string) {
-    return `<span style="color: ${color};">${word}</span>`;
-}
-
-function wrapInDarkBlue(word: string) {
-    return wrapInSpan(word, "rgb(86,156,214)");
-}
-
-function wrapInBlue(word: string) {
-    return wrapInSpan(word, "rgb(79,193,255)");
-}
-
-function wrapInLightBlue(word: string) {
-    return wrapInSpan(word, "rgb(156,220,254)");
-}
-
-function wrapInPurple(word: string) {
-    return wrapInSpan(word, "rgb(197,134,192)");
-}
-
-function wrapInLightYellow(word: string) {
-    return wrapInSpan(word, "rgb(240,240,185)");
-}
-
-function wrapInYellow(word: string) {
-    return wrapInSpan(word, "rgb(255,229,0)");
-}
-
-function wrapInLightGreen(word: string) {
-    return wrapInSpan(word, "rgb(181,206,168)");
-}
-
-function wrapInWhite(word: string) {
-    return wrapInSpan(word, "white");
-}
-
-function replaceSpace(target: string) {
-    return target.replace(/\s/g, "&nbsp");
-}
 
 function getBlockTag(lineType: RegExpType | null, index: 0 | 1) {
     if (lineType === null)
@@ -199,23 +85,30 @@ function getBlockTag(lineType: RegExpType | null, index: 0 | 1) {
     return item[index];
 }
 
-function loadMathJax() {
+function initCodeBlock(lang: string) {
+    lang = lang.toLowerCase();
+    if(lang === "javascript") {
+        loadCSS("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/stackoverflow-dark.min.css");
+        loadScript("https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js", true, true, () => {(window as any).hljs.highlightAll();});
+    }else{
+        console.log("UNEXPECTED CODE TYPE");
+    }
+}
+
+function configMathJax() {
     if (window === undefined || document === undefined)
         return;
     (window as any).MathJax = {
         tex: {
             inlineMath: [['$', '$'], ['\\(', '\\)']]
         },
-        loader: {load: ["input/tex", "output/chtml"]}
+        loader: { load: ["input/tex", "output/chtml"] }
     };
+}
 
-    let script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js';
-    script.async = true;
-    script.addEventListener("load",() => {
-        console.log("math ready");
-    })
-    document.head.appendChild(script);
+function loadMathJax() {
+    configMathJax();
+    loadScript('https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js', true, true);
 }
 
 class MdParser {
@@ -275,6 +168,7 @@ class MdParser {
         if (this.#block === null && this.#isBlockLine(lineType)) {
             this.#block = lineType;
             this.#setBlockParameter(lineType);
+            this.#initBlock(lineType);
             return this.#getBlockStarter(lineType);
         }
         if (this.#block !== null) {
@@ -401,6 +295,23 @@ class MdParser {
         if (blockParseFunc === undefined)
             return "BLOCK_PARSE_FUNC_MISSING";
         return blockParseFunc(lineContent, this.#blockPara);
+    }
+
+    #initBlock(lineType: RegExpType | null) {
+        switch(lineType) {
+            case "code":
+                switch(this.#blockPara) {
+                    case "javascript":
+                        initCodeBlock("javascript");
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+        return;
     }
 }
 
