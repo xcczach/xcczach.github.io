@@ -1,6 +1,6 @@
 {
     "discrete-maths": [
-
+        {"fileName": "群论-同态", "date": [2023,4,15], "tags": ["群论"]}
     ],
     "probability-and-statistics": [
         {"fileName": "概率统计基本概念的思考", "date": [2023,4,8], "tags": []},

@@ -1,22 +1,26 @@
 <template>
-    <VMdPreview :text="mdContent"></VMdPreview>
+    <div v-html="mdParsed"></div>
 </template>
 <script lang="ts">
-    import VMdPreview from '@/plugins/vmd_preview';
-    export default {
-        beforeMount() {
-            const md = import(`@/docs/${this.$route.params.passageName}.md?raw`);
-            md.then(content=>{
-                this.mdContent = content.default;
-            })
-        },
-        data() {
-            return {
-                mdContent: ""
-            }
-        },
-        components: {
-            VMdPreview
+import MdParser from '@/plugins/mdparser';
+
+export default {
+    beforeMount() {
+        const md = import(`@/docs/${this.$route.params.passageName}.md?raw`);
+        md.then(content => {
+            this.mdContent = content.default;
+            this.mdParsed = new MdParser(this.mdContent).getHtml();
+        });
+    },
+    updated() {
+        MdParser.initMaths();
+    }
+    ,
+    data() {
+        return {
+            mdContent: "",
+            mdParsed: ""
         }
     }
+}
 </script>
