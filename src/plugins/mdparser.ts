@@ -60,6 +60,8 @@ const codeTransMap: Map<string, (lineContent: string) => string> = new Map([
             ["finally", wrapInPurple],
             ["try", wrapInPurple],
             ["catch", wrapInPurple],
+            ["as", wrapInPurple],
+            ["from", wrapInPurple],
             ["throw", wrapInPurple],
             ["case", wrapInPurple],
             ["true", wrapInDarkBlue],
