@@ -48,22 +48,22 @@ function hasCSS(href: string) {
 function loadScript(src: string, reloadEveryTime: boolean = true, async: boolean = false, callback: () => void = () => {}) {
     if(!reloadEveryTime && hasScript(src))
         return;
-    console.log(`script loaded: ${src}`);
     let script = document.createElement('script');
     script.src = src;
     script.async = async;
     script.addEventListener("load", callback);
     document.head.appendChild(script);
+    console.log(`script loaded: ${src}`);
 }
 
 function loadCSS(href: string) {
     if(hasCSS(href))
         return;
-    console.log(`css loaded: ${href}`);
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = href;
     document.head.appendChild(link);
+    console.log(`css loaded: ${href}`);
 }
 
 
