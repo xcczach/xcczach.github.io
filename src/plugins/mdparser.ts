@@ -33,7 +33,7 @@ const blockMap: Map<RegExpType, [string, string]> = new Map([
 
 const blockParseFuncMap: Map<RegExpType, (lineContent: string, blockPara: string | null) => string> = new Map([
     ["code", (lineContent, _) => {
-        return lineContent;
+        return lineContent + "<br/>";
     }]
 ]);
 
